@@ -1,6 +1,6 @@
-package fr.campus.dungeonsndragons.equipment;
+package fr.campus.dungeonsndragons.attributes;
 
-public class DefenseEquipment {
+public abstract class DefenseEquipment {
 
     String type;
     int level;

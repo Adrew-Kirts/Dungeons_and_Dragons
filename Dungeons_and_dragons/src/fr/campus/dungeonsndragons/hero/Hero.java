@@ -1,6 +1,6 @@
 package fr.campus.dungeonsndragons.hero;
 
-public class Hero {
+public abstract class Hero {
 
     //VARIABLES
     private String name;
@@ -49,8 +49,12 @@ public class Hero {
     }
 
     public Hero(String heroName){
+
         name = heroName;
+//        this.lifePoints = lifePoints;
+//        this.attackPower = attackPower;
     }
+
 
     public Hero(String heroName, String heroType){
         this.name = heroName;

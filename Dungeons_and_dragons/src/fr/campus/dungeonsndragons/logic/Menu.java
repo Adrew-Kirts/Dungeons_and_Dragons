@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Menu {
 
     Game mainGame;
-
+    Artwork artwork = new Artwork();
 
     public boolean startGame() {
         boolean choiceMade = false;
@@ -14,11 +14,6 @@ public class Menu {
         String choice;
 
         while (!choiceMade) {
-            System.out.println("___________________________________");
-            System.out.println("|       .:.:.:.:.:.:.:.:.:.        |");
-            System.out.println("| Welcome to Dungeons and Dragons! |");
-            System.out.println("|    _.~\"~._.~\"~._.~\"~._.~\"~._     |");
-            System.out.println("------------------------------------\n          Please choose: ");
             System.out.println("          1. Start game");
             System.out.println("            2. Quit");
             choice = myObj.nextLine().toLowerCase();
@@ -35,12 +30,24 @@ public class Menu {
         return false;
     }
 
+    public boolean continueGame() {
+        System.out.println("\nPress enter to continue...");
+        Scanner myObj = new Scanner(System.in);
+        String choice;
+        choice = myObj.nextLine().toLowerCase();
+        if (choice.equals("")) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean restartGame() {
         boolean choiceMade = false;
         Scanner myObj = new Scanner(System.in);
         String choice;
 
         while (!choiceMade) {
+            artwork.openingMenu();
             System.out.println("\nWhat would you like to do now?");
             System.out.println("     1. Start a new game");
             System.out.println("          2. Quit");
@@ -64,13 +71,10 @@ public class Menu {
         String choice;
 
         while (!choiceMade) {
-            System.out.println("___________________________________");
-            System.out.println("|       .:.:.:.:.:.:.:.:.:.        |");
-            System.out.println("| Welcome to Dungeons and Dragons! |");
-            System.out.println("|    _.~\"~._.~\"~._.~\"~._.~\"~._     |");
-            System.out.println("------------------------------------\n          Please choose: ");
+            artwork.openingMenu();
             System.out.println("       1. Create character");
             System.out.println("            2. Quit");
+
             choice = myObj.nextLine().toLowerCase();
             if (choice.equals("1")) {
                 return true;
@@ -91,52 +95,6 @@ public class Menu {
         String heroName = myObj.nextLine();
 
         return heroName;
-    }
-
-    public void showType(String heroType, String heroName) {
-        if (heroType.equals("warrior")) {
-            System.out.print("  / \\\n" +
-                    "  | |\n" +
-                    "  |.|\n" +
-                    "  |.|\n" +
-                    "  |:|      __\n" +
-                    ",_|:|_,   /  )\n" +
-                    "  (Oo    / _I_\n" +
-                    "   +\\ \\  || __|\n" +
-                    "      \\ \\||___|\n" +
-                    "        \\ /.:.\\-\\\n" +
-                    "         |.:. /-----\\\n" +
-                    "         |___|::oOo::|\n" +
-                    "         /   |:<_T_>:|\n" +
-                    "        |_____\\ ::: /\n" +
-                    "         | |  \\ \\:/\n" +
-                    "         | |   | |\n" +
-                    "         \\ /   | \\___\n" +
-                    "         / |   \\_____\\\n" +
-                    "         `-'" +
-                    "");
-        } else {
-            System.out.println("              _,-'|\n" +
-                    "           ,-'._  |\n" +
-                    " .||,      |####\\ |\n" +
-                    "\\.`',/     \\####| |\n" +
-                    "= ,. =      |###| |\n" +
-                    "/ || \\    ,-'\\#/,'`.\n" +
-                    "  ||     ,'   `,,. `.\n" +
-                    "  ,|____,' , ,;' \\| |\n" +
-                    " (3|\\    _/|/'   _| |\n" +
-                    "  ||/,-''  | >-'' _,\\\\\n" +
-                    "  ||'      ==\\ ,-'  ,'\n" +
-                    "  ||       |  V \\ ,|\n" +
-                    "  ||       |    |   \\\n" +
-                    "  ||       |    \\    \\\n" +
-                    "  ||       |     |    \\\n" +
-                    "  ||       |      \\_,-'\n" +
-                    "  ||       |___,,--\")_\\\n" +
-                    "  ||         |_|   ccc/\n" +
-                    "  ||        ccc/\n" +
-                    "  ||                   ");
-        }
     }
 
     public String heroTypeInput() {
@@ -161,10 +119,8 @@ public class Menu {
             System.out.println("Please give a valid choice\n");
             heroTypeInput();
         }
-
         return heroType;
     }
-
 
     public boolean movePlayer() {
         Scanner myObj = new Scanner(System.in);
@@ -202,92 +158,15 @@ public class Menu {
     }
 
     public void showDice(int rolledDice) {
-        System.out.println(Arrays.toString(diceArray[rolledDice]));
+        System.out.println(Arrays.toString(artwork.diceArray[rolledDice]));
         System.out.println("--------------------------------------");
         System.out.println("|   You rolled a: " + rolledDice + "                   |");
 
     }
 
-    public void diceArt() {
-        System.out.println("       .-------.    ______\n      /   o   /|   /\\     \\ \n     /_______/o|  /o " +
-                "\\  o  \\ \n     | o     | | /   o\\_____\\ \n     |   o   |o/ \\o   /o    / \n     |     o |/   " +
-                "\\ o/  o  / \n     '-------'     \\/____o/");
-    }
-
-    public void winMessage() {
-        System.out.println(
-                "WWWWWWWW                           WWWWWWWWIIIIIIIIIINNNNNNNN        NNNNNNNNNNNNNNNN        NNNNNNNNEEEEEEEEEEEEEEEEEEEEEERRRRRRRRRRRRRRRRR   \n" +
-                        "W::::::W                           W::::::WI::::::::IN:::::::N       N::::::NN:::::::N       N::::::NE::::::::::::::::::::ER::::::::::::::::R  \n" +
-                        "W::::::W                           W::::::WI::::::::IN::::::::N      N::::::NN::::::::N      N::::::NE::::::::::::::::::::ER::::::RRRRRR:::::R \n" +
-                        "W::::::W                           W::::::WII::::::IIN:::::::::N     N::::::NN:::::::::N     N::::::NEE::::::EEEEEEEEE::::ERR:::::R     R:::::R\n" +
-                        " W:::::W           WWWWW           W:::::W   I::::I  N::::::::::N    N::::::NN::::::::::N    N::::::N  E:::::E       EEEEEE  R::::R     R:::::R\n" +
-                        "  W:::::W         W:::::W         W:::::W    I::::I  N:::::::::::N   N::::::NN:::::::::::N   N::::::N  E:::::E               R::::R     R:::::R\n" +
-                        "   W:::::W       W:::::::W       W:::::W     I::::I  N:::::::N::::N  N::::::NN:::::::N::::N  N::::::N  E::::::EEEEEEEEEE     R::::RRRRRR:::::R \n" +
-                        "    W:::::W     W:::::::::W     W:::::W      I::::I  N::::::N N::::N N::::::NN::::::N N::::N N::::::N  E:::::::::::::::E     R:::::::::::::RR  \n" +
-                        "     W:::::W   W:::::W:::::W   W:::::W       I::::I  N::::::N  N::::N:::::::NN::::::N  N::::N:::::::N  E:::::::::::::::E     R::::RRRRRR:::::R \n" +
-                        "      W:::::W W:::::W W:::::W W:::::W        I::::I  N::::::N   N:::::::::::NN::::::N   N:::::::::::N  E::::::EEEEEEEEEE     R::::R     R:::::R\n" +
-                        "       W:::::W:::::W   W:::::W:::::W         I::::I  N::::::N    N::::::::::NN::::::N    N::::::::::N  E:::::E               R::::R     R:::::R\n" +
-                        "        W:::::::::W     W:::::::::W          I::::I  N::::::N     N:::::::::NN::::::N     N:::::::::N  E:::::E       EEEEEE  R::::R     R:::::R\n" +
-                        "         W:::::::W       W:::::::W         II::::::IIN::::::N      N::::::::NN::::::N      N::::::::NEE::::::EEEEEEEE:::::ERR:::::R     R:::::R\n" +
-                        "          W:::::W         W:::::W          I::::::::IN::::::N       N:::::::NN::::::N       N:::::::NE::::::::::::::::::::ER::::::R     R:::::R\n" +
-                        "           W:::W           W:::W           I::::::::IN::::::N        N::::::NN::::::N        N::::::NE::::::::::::::::::::ER::::::R     R:::::R\n" +
-                        "            WWW             WWW            IIIIIIIIIINNNNNNNN         NNNNNNNNNNNNNNN         NNNNNNNEEEEEEEEEEEEEEEEEEEEEERRRRRRRR     RRRRRRR");
-    }
-
-    String[][] diceArray = new String[][]{
-            {
-                    "+-------+",
-                    "\n|        |",
-                    "\n|        |",
-                    "\n|        |",
-                    "\n+--------+",
-            },
-            {
-                    "+-------+",
-                    "\n|        |",
-                    "\n|   o    |",
-                    "\n|        |",
-                    "\n+--------+",
-            },
-            {
-                    "+-------+",
-                    "\n| o      |",
-                    "\n|        |",
-                    "\n|     o  |",
-                    "\n+--------+",
-            },
-            {
-                    "+-------+",
-                    "\n| o      |",
-                    "\n|   o    |",
-                    "\n|     o  |",
-                    "\n+--------+",
-            },
-            {
-                    "+-------+",
-                    "\n| o   o  |",
-                    "\n|        |",
-                    "\n| o   o  |",
-                    "\n+--------+",
-            },
-            {
-                    "+-------+",
-                    "\n| o   o  |",
-                    "\n|   o    |",
-                    "\n| o   o  |",
-                    "\n+--------+",
-            },
-            {
-                    "+-------+",
-                    "\n| o   o  |",
-                    "\n| o   o  |",
-                    "\n| o   o  |",
-                    "\n+--------+",
-            }
-    };
-
     public Menu(Game game) {
         this.mainGame = game;
     }
+
 
 }

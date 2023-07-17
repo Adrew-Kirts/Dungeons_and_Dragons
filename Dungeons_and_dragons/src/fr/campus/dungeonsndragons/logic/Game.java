@@ -1,12 +1,15 @@
 package fr.campus.dungeonsndragons.logic;
 
 import fr.campus.dungeonsndragons.hero.Hero;
+import fr.campus.dungeonsndragons.hero.Warrior;
+import fr.campus.dungeonsndragons.hero.Wizard;
 
 public class Game {
 
     //VARIABLES
     private int position = 1;
     private Menu mainMenu;
+    private Artwork artwork;
     Object[] array;
 
     Hero newhero;
@@ -33,42 +36,52 @@ public class Game {
 
         boolean endOfGame = false;
         this.mainMenu = new Menu(this);
+        this.artwork = new Artwork();
 
         boolean doCreateHero = mainMenu.heroCreation();
-        ;
 
         if (doCreateHero) {
+
             String heroName = mainMenu.heroNameInput();
             String heroType = mainMenu.heroTypeInput();
 
-            this.newhero = new Hero(heroName, heroType);
+            if (heroType.equals("warrior")) {
+                newhero = new Warrior(heroName);
+            } else if (heroType.equals("wizard")) {
+                newhero = new Wizard(heroName);
+            }
 
-            //set attack
-            this.newhero.setAttackPower(randAttributes(heroType, "attack"));
+            this.artwork.showType(heroType, heroName);
 
-            //set life points
-            this.newhero.setLifePoints(randAttributes(heroType, "life"));
-            ////
-            mainMenu.showType(heroType, heroName);
+            newhero.setType(heroType);
 
             System.out.println(newhero.toString());
-        }
 
+        }
         boolean doStart = mainMenu.startGame();
 
         if (doStart) {
             initBoard();
         }
-        mainMenu.diceArt();
+        artwork.diceArt();
 
         while (!endOfGame) {
             if (mainMenu.movePlayer() && position < array.length) {
                 this.position += throwDice();
+                // TODO --> insert player into array
+//                array[this.position] = this.newhero;
+
                 if (position < array.length) {
                     this.mainMenu.givePosition();
+
+                    //temp:
+//                    System.out.println(array[this.position]);
                 } else {
                     endOfGame = true;
-                    mainMenu.winMessage();
+                    artwork.winMessage();
+
+                    //press a key to continue
+                    mainMenu.continueGame();
 
                     boolean doRestart = mainMenu.restartGame();
 
@@ -90,18 +103,5 @@ public class Game {
         return rolledDice;
     }
 
-    public int randAttributes(String heroType, String attribute) {
-        if (heroType.equals("wizard") && attribute.equals("attack")) {
-            int rolledDice = (int) (Math.random() * (16 - 8)) + 8;
-            return rolledDice;
-        } else if (heroType.equals("wizard") && attribute.equals("life")) {
-            int rolledDice = (int) (Math.random() * (7 - 3)) + 3;
-            return rolledDice;
-        } else {
-            int rolledDice = (int) (Math.random() * (11 - 5)) + 5;
-            return rolledDice;
-        }
-
-    }
 
 }
