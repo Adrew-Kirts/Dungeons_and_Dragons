@@ -91,7 +91,7 @@ public class Artwork {
 
     public void showType(String heroType, String heroName) {
         if (heroType.equals("warrior")) {
-            System.out.print("  / \\\n" +
+            System.out.print("  /\\\n" +
                     "  | |\n" +
                     "  |.|\n" +
                     "  |.|\n" +

@@ -1,8 +1,9 @@
 package fr.campus.dungeonsndragons.logic;
 
-import fr.campus.dungeonsndragons.hero.Hero;
-import fr.campus.dungeonsndragons.hero.Warrior;
-import fr.campus.dungeonsndragons.hero.Wizard;
+import fr.campus.dungeonsndragons.players.Hero;
+import fr.campus.dungeonsndragons.players.Warrior;
+import fr.campus.dungeonsndragons.players.Wizard;
+import java.util.ArrayList;
 
 public class Game {
 
@@ -11,6 +12,8 @@ public class Game {
     private Menu mainMenu;
     private Artwork artwork;
     Object[] array;
+
+    ArrayList<Square> gameboard = new ArrayList<Square>();
 
     Hero newhero;
 
@@ -51,6 +54,8 @@ public class Game {
                 newhero = new Wizard(heroName);
             }
 
+            //add a roll for an optional chest somewhere here
+
             newhero.setType(heroType);
             this.artwork.showType(heroType, heroName);
 
@@ -67,14 +72,17 @@ public class Game {
         while (!endOfGame) {
             if (mainMenu.movePlayer() && position < array.length) {
                 this.position += throwDice();
-                //Insert player into array:
-                array[this.position] = this.newhero;
+
+//                //Insert player into array
+//                try {
+//                    array[this.position] = this.newhero;
+//                } catch (ArrayIndexOutOfBoundsException e){
+//                    System.out.println("You fell off the board!! " + e.getMessage());
+//                }
 
                 if (position < array.length) {
                     this.mainMenu.givePosition();
 
-                    //temp:
-//                    System.out.println(array[this.position]);
                 } else {
                     endOfGame = true;
                     artwork.winMessage();
@@ -82,6 +90,7 @@ public class Game {
                     //press a key to continue
                     mainMenu.continueGame();
 
+                    //ask to restart game
                     boolean doRestart = mainMenu.restartGame();
 
                     if (doRestart) {

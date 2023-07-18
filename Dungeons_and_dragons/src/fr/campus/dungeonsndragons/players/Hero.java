@@ -1,4 +1,4 @@
-package fr.campus.dungeonsndragons.hero;
+package fr.campus.dungeonsndragons.players;
 
 public abstract class Hero {
 
@@ -63,7 +63,7 @@ public abstract class Hero {
     }
 
     public String toString(){
-        return "Your " + type + " hero is called " + name + ".\n(S)he has an attack power of " +
+        return "Your hero " + name + " has an attack power of " +
                 attackPower + " and " + lifePoints + " life points.";
     }
 }

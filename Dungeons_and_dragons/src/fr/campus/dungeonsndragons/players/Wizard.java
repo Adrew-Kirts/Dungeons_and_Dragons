@@ -1,4 +1,4 @@
-package fr.campus.dungeonsndragons.hero;
+package fr.campus.dungeonsndragons.players;
 
 public class Wizard extends Hero{
 

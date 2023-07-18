@@ -128,12 +128,21 @@ public class Menu {
         String coward;
         boolean stop = false;
 
-
-        System.out.println("\nThrow the dice? [y or n]");
+        System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println("x     Throw dice [d]     x");
+        System.out.println("x Show player status [s] x");
+        System.out.println("x     Quit game [q]      x");
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxx");
         choice = myObj.nextLine().toLowerCase();
-        if (choice.equals("y")) {
+        if (choice.equals("d")) {
             return true;
-        } else if (choice.equals("n")) {
+        }
+        else if (choice.equals("s")){
+            System.out.println(mainGame.newhero);
+            return false;
+        }
+
+        else if (choice.equals("q")) {
             System.out.println("Frightened little one...");
             System.out.println("Do you want to quit the dungeon");
             System.out.println("[y or n]");
@@ -145,7 +154,7 @@ public class Menu {
                 return false;
             }
         } else {
-            System.out.println("Please type in \"y\" or \"n\"\n");
+            System.out.println("Please type in \"d\", \"s\", or \"q\"\n");
         }
 
         return false;
@@ -153,16 +162,18 @@ public class Menu {
 
     public void givePosition() {
         System.out.println("|   Player is on square " + this.mainGame.getPosition() + " out of " + this.mainGame.array.length + "   |");
-        System.out.println("--------------------------------------");
+        System.out.println(" --------------------------------------");
 
     }
 
     public void showDice(int rolledDice) {
         System.out.println(Arrays.toString(artwork.diceArray[rolledDice]));
-        System.out.println("--------------------------------------");
-        System.out.println("|   You rolled a: " + rolledDice + "                   |");
+        System.out.println(" --------------------------------------");
+        System.out.println("|   You rolled a: " + rolledDice + "                    |");
 
     }
+
+
 
     public Menu(Game game) {
         this.mainGame = game;
