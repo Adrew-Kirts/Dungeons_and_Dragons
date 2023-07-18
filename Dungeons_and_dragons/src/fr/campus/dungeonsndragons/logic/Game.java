@@ -51,9 +51,8 @@ public class Game {
                 newhero = new Wizard(heroName);
             }
 
-            this.artwork.showType(heroType, heroName);
-
             newhero.setType(heroType);
+            this.artwork.showType(heroType, heroName);
 
             System.out.println(newhero.toString());
 
@@ -68,8 +67,8 @@ public class Game {
         while (!endOfGame) {
             if (mainMenu.movePlayer() && position < array.length) {
                 this.position += throwDice();
-                // TODO --> insert player into array
-//                array[this.position] = this.newhero;
+                //Insert player into array:
+                array[this.position] = this.newhero;
 
                 if (position < array.length) {
                     this.mainMenu.givePosition();
