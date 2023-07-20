@@ -15,7 +15,7 @@ public class Game {
 
     ArrayList<Square> gameboard = new ArrayList<Square>();
 
-    Hero newhero;
+    private Hero newhero;
 
     //GETTERS
     public int getPosition() {

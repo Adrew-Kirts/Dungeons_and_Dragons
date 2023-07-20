@@ -2,9 +2,7 @@ package fr.campus.dungeonsndragons.attributes;
 
 public class Weapon extends AttackEquipment{
 
-    public Weapon(String attackType, int attackLevel, String attackName) {
-        super(attackType, attackLevel, attackName);
-
-
+    public Weapon(int attackLevel, String attackName) {
+        super("weapon", attackLevel, attackName);
     }
 }
