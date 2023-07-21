@@ -9,13 +9,7 @@ public class EnemySquare implements Square {
         this.enemy = enemy;
     }
 
-//    @Override
-//    public boolean isEnemySquare() {
-//        return true;
-//    }
-//
-//    @Override
-//    public Enemy getEnemy() {
-//        return enemy;
-//    }
+    public Enemy getEnemy() {
+        return enemy;
+    }
 }

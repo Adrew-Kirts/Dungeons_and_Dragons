@@ -19,6 +19,7 @@ public class Game {
     private Menu mainMenu;
     private Artwork artwork;
     private Chest chest = new Chest();
+    private GameBoard gameBoard;
 
 
     //    private HealingPotion healingPotion = new HealingPotion(this);
@@ -37,6 +38,7 @@ public class Game {
     public Menu getMainMenu() {
         return mainMenu;
     }
+    public GameBoard getGameBoard() {return gameBoard;}
 
     //SETTERS
     public void setPosition(int position) {
@@ -91,7 +93,7 @@ public class Game {
             //choice of enemies
             int numberOfEnemies = mainMenu.enemyCountChoice();
             //new gameboard with choice of enemies:
-            GameBoard gameBoard = new GameBoard(numberOfEnemies);
+            gameBoard = new GameBoard(numberOfEnemies);
 
         }
         artwork.diceArt();

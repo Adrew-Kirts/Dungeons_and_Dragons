@@ -9,12 +9,12 @@ public class Wizard extends Hero {
     }
 
     public void randAttack() {
-        int rolledDice = (int) (Math.random() * (16 - 8)) + 8;
+        int rolledDice = (int) (Math.random() * (21 - 8)) + 8;
         setAttackPower(rolledDice);
     }
 
     public void randLife() {
-        int rolledDice = (int) (Math.random() * (7 - 3)) + 3;
+        int rolledDice = (int) (Math.random() * (16 - 8)) + 8;
         setLifePoints(rolledDice);
     }
 

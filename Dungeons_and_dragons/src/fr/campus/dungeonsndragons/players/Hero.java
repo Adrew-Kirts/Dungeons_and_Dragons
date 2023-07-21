@@ -93,21 +93,18 @@ public abstract class Hero {
 
     public String toString() {
 
-        if (healingPotions == null && attackEquipment == null){
-            return "\nYour hero " + name + " has an attack power of " +
-                    attackPower + " and " + lifePoints + " life points.";
-        }
-        else if (healingPotions == null){
-            return "\nYour hero " + name + " has an attack power of " +
-                    attackPower + " and " + lifePoints + " life points and " + attackEquipment;
-        }
-        else if (attackEquipment == null){
-            return "\nYour hero " + name + " has an attack power of " +
-                    attackPower + " and " + lifePoints + " life points and " + healingPotions;
-        }
-        else {
-            return "\nYour hero " + name + " has an attack power of " +
-                    attackPower + " and " + lifePoints + " life points with " + attackEquipment + " and " + healingPotions;
+        if (healingPotions == null && attackEquipment == null) {
+            return "\nYour hero " + name + " has " + lifePoints + " HP and " +
+                    attackPower + " ATK";
+        } else if (healingPotions == null) {
+            return "\nYour hero " + name + " has " + lifePoints + " HP and " +
+                    attackPower + " ATK" + attackEquipment;
+        } else if (attackEquipment == null) {
+            return "\nYour hero " + name + " has " + lifePoints + " HP and " +
+                    attackPower + " ATK" + healingPotions;
+        } else {
+            return "\nYour hero " + name + " has " + lifePoints + " HP and " +
+                    attackPower + " ATK" + attackEquipment + " and " + healingPotions;
         }
 
     }

@@ -43,7 +43,6 @@ public class GameBoard {
         }
     }
 
-
     private Enemy getRandomEnemy() {
         int random = (int) (Math.random() * 6);
         switch (random) {

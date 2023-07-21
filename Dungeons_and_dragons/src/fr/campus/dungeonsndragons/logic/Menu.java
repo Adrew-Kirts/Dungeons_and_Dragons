@@ -3,12 +3,16 @@ package fr.campus.dungeonsndragons.logic;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import fr.campus.dungeonsndragons.board.EnemySquare;
 import fr.campus.dungeonsndragons.board.GameBoard;
+import fr.campus.dungeonsndragons.board.Square;
+import fr.campus.dungeonsndragons.npc.Enemy;
 import fr.campus.dungeonsndragons.players.Hero;
 
 public class Menu {
 
     Game mainGame;
+    GameBoard gameBoard;
     Hero hero;
     Artwork artwork = new Artwork();
 
@@ -140,14 +144,11 @@ public class Menu {
         choice = myObj.nextLine().toLowerCase();
         if (choice.equals("d")) {
             return true;
-        }
-        else if (choice.equals("s")){
+        } else if (choice.equals("s")) {
 //            System.out.println(mainGame.newhero);
             System.out.println(hero);
             return false;
-        }
-
-        else if (choice.equals("q")) {
+        } else if (choice.equals("q")) {
             System.out.println("Frightened little one...");
             System.out.println("Do you want to quit the dungeon");
             System.out.println("[y or n]");
@@ -165,16 +166,52 @@ public class Menu {
         return false;
     }
 
-    public void givePosition() {
-        System.out.println("|   Player is on square " + this.mainGame.getPosition() + " out of " + this.mainGame.array.length + "   |");
-        System.out.println(" --------------------------------------");
-//        System.out.println(GameBoard.getGameboard());
+    public void givePositionOLD() {
+        int playerPosition = this.mainGame.getPosition();
+        Square square = this.mainGame.getGameBoard().getGameboard().get(playerPosition);
+        System.out.println("|   Player is on square " + playerPosition + " out of " + this.mainGame.array.length + "   |");
+        System.out.println(" --------------------");
+        if (square instanceof EnemySquare) {
+            String boardPosition = this.mainGame.getGameBoard().getGameboard().get(playerPosition).toString();
+            System.out.println(boardPosition);
+        }
+        else {
+            System.out.println("No enemy here");
+        }
     }
+
+    public void givePosition() {
+        int playerPosition = this.mainGame.getPosition();
+
+        if (playerPosition >= 0 && playerPosition < this.mainGame.getGameBoard().getGameboard().size()) {
+            Square square = this.mainGame.getGameBoard().getGameboard().get(playerPosition);
+            if (square instanceof EnemySquare) {
+                EnemySquare enemySquare = (EnemySquare) square;
+                Enemy enemy = enemySquare.getEnemy();
+
+                String enemyType = enemy.getType();
+                int enemyLifePoints = enemy.getLifePoints();
+                int enemyAttackPower = enemy.getAttackPower();
+
+                System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
+                System.out.println("-------------------------------");
+                System.out.println("\nA " + enemyType +" appeared!");
+                System.out.println("HP: " + enemyLifePoints);
+                System.out.println("ATK: " + enemyAttackPower);
+            } else {
+                System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
+                System.out.println("-------------------------------");
+                System.out.println("No enemies here...");
+            }
+        }
+    }
+
 
     public void showDice(int rolledDice) {
         System.out.println(Arrays.toString(artwork.diceArray[rolledDice]));
-        System.out.println(" --------------------------------------");
-        System.out.println("|   You rolled a: " + rolledDice + "                    |");
+        System.out.println(" --------------------");
+        System.out.println("|   You rolled a: " + rolledDice + "  |");
+        System.out.println(" --------------------");
 
     }
 
@@ -192,7 +229,7 @@ public class Menu {
             if (choice.equals("y")) {
                 return true;
             } else if (choice.equals("n")) {
-                System.out.println("\nI applaud your braveness "+ hero.getType() + " !");
+                System.out.println("\nI applaud your braveness " + hero.getType() + " !");
                 return false;
             } else {
                 System.out.println("Please give a valid choice\n");
@@ -201,7 +238,7 @@ public class Menu {
         return false;
     }
 
-    public int enemyCountChoice(){
+    public int enemyCountChoice() {
 
         boolean choiceMade = false;
         Scanner myObj = new Scanner(System.in);
