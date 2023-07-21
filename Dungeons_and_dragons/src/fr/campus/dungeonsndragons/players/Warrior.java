@@ -12,7 +12,7 @@ public class Warrior extends Hero {
         setAttackPower(rolledDice);
     }
     public void randLife() {
-        int rolledDice = (int) (Math.random() * (11 - 5)) + 5;
+        int rolledDice = (int) (Math.random() * (19 - 10)) + 5;
         setLifePoints(rolledDice);
     }
 }

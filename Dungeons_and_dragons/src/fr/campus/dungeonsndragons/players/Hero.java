@@ -1,5 +1,9 @@
 package fr.campus.dungeonsndragons.players;
 
+import fr.campus.dungeonsndragons.attributes.AttackEquipment;
+import fr.campus.dungeonsndragons.attributes.DefenseEquipment;
+import fr.campus.dungeonsndragons.attributes.HealingPotion;
+
 public abstract class Hero {
 
     //VARIABLES
@@ -12,12 +16,10 @@ public abstract class Hero {
 
 
     //Equipment:
-    private String attackType; //weapon or spell
-    private String equipmentName;
-    private int equipmentAttackPower;
-    private int totalAttackPower = attackPower + equipmentAttackPower;
-    private int smallPotionCount = 0;
-    private int largePotionCount = 0;
+    private AttackEquipment attackEquipment;
+    private DefenseEquipment defenseEquipment;
+    private HealingPotion healingPotions;
+
 
     //GETTERS and SETTERS
     public String getName() {
@@ -52,25 +54,29 @@ public abstract class Hero {
         this.attackPower = attackPower;
     }
 
-    public int getEquipmentAttackPower() {return equipmentAttackPower;}
+    public HealingPotion getHealingPotions() {
+        return healingPotions;
+    }
 
-    public void setEquipmentAttackPower(int equipmentAttackPower) {this.equipmentAttackPower = equipmentAttackPower;}
+    public void setHealingPotions(HealingPotion healingPotions) {
+        this.healingPotions = healingPotions;
+    }
 
-    public int getSmallPotionCount() {return smallPotionCount;}
+    public AttackEquipment getAttackEquipment() {
+        return attackEquipment;
+    }
 
-    public void setSmallPotionCount(int smallPotionCount) {this.smallPotionCount = smallPotionCount;}
+    public void setAttackEquipment(AttackEquipment attackEquipment) {
+        this.attackEquipment = attackEquipment;
+    }
 
-    public int getLargePotionCount() {return largePotionCount;}
+    public DefenseEquipment getDefenseEquipment() {
+        return defenseEquipment;
+    }
 
-    public void setLargePotionCount(int largePotionCount) {this.largePotionCount = largePotionCount;}
-
-    public String getAttackType() {return attackType;}
-
-    public void setAttackType(String attackType) {this.attackType = attackType;}
-
-    public String getEquipmentName() {return equipmentName;}
-
-    public void setEquipmentName(String equipmentName) {this.equipmentName = equipmentName;}
+    public void setDefenseEquipment(DefenseEquipment defenseEquipment) {
+        this.defenseEquipment = defenseEquipment;
+    }
 
     //CONSTRUCTORS
     public Hero() {
@@ -86,9 +92,26 @@ public abstract class Hero {
     }
 
     public String toString() {
-        return "Your hero " + name + " has an attack power of " +
-                attackPower + " + an additional " + equipmentAttackPower + " points for the equipment you might have" + " and " + lifePoints + " life points.";
+
+        if (healingPotions == null && attackEquipment == null){
+            return "\nYour hero " + name + " has an attack power of " +
+                    attackPower + " and " + lifePoints + " life points.";
+        }
+        else if (healingPotions == null){
+            return "\nYour hero " + name + " has an attack power of " +
+                    attackPower + " and " + lifePoints + " life points and " + attackEquipment;
+        }
+        else if (attackEquipment == null){
+            return "\nYour hero " + name + " has an attack power of " +
+                    attackPower + " and " + lifePoints + " life points and " + healingPotions;
+        }
+        else {
+            return "\nYour hero " + name + " has an attack power of " +
+                    attackPower + " and " + lifePoints + " life points with " + attackEquipment + " and " + healingPotions;
+        }
+
     }
+
 }
 
 

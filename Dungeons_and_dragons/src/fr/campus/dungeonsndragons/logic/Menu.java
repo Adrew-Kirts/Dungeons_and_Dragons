@@ -3,9 +3,13 @@ package fr.campus.dungeonsndragons.logic;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import fr.campus.dungeonsndragons.board.GameBoard;
+import fr.campus.dungeonsndragons.players.Hero;
+
 public class Menu {
 
     Game mainGame;
+    Hero hero;
     Artwork artwork = new Artwork();
 
     public boolean startGame() {
@@ -14,7 +18,7 @@ public class Menu {
         String choice;
 
         while (!choiceMade) {
-            System.out.println("          1. Start game");
+            System.out.println("\n          1. Start game");
             System.out.println("            2. Quit");
             choice = myObj.nextLine().toLowerCase();
             if (choice.equals("1")) {
@@ -138,7 +142,8 @@ public class Menu {
             return true;
         }
         else if (choice.equals("s")){
-            System.out.println(mainGame.newhero);
+//            System.out.println(mainGame.newhero);
+            System.out.println(hero);
             return false;
         }
 
@@ -163,7 +168,7 @@ public class Menu {
     public void givePosition() {
         System.out.println("|   Player is on square " + this.mainGame.getPosition() + " out of " + this.mainGame.array.length + "   |");
         System.out.println(" --------------------------------------");
-
+//        System.out.println(GameBoard.getGameboard());
     }
 
     public void showDice(int rolledDice) {
@@ -173,6 +178,47 @@ public class Menu {
 
     }
 
+    public boolean randomChestChoice() {
+        boolean choiceMade = false;
+        Scanner myObj = new Scanner(System.in);
+        String choice;
+
+        while (!choiceMade) {
+            System.out.println("\nWould you like to roll for a random chest?");
+            artwork.showChest();
+            System.out.println("\nYes [y] or [n]");
+
+            choice = myObj.nextLine().toLowerCase();
+            if (choice.equals("y")) {
+                return true;
+            } else if (choice.equals("n")) {
+                System.out.println("\nI applaud your braveness "+ hero.getType() + " !");
+                return false;
+            } else {
+                System.out.println("Please give a valid choice\n");
+            }
+        }
+        return false;
+    }
+
+    public int enemyCountChoice(){
+
+        boolean choiceMade = false;
+        Scanner myObj = new Scanner(System.in);
+        int choice = 1;
+
+        while (!choiceMade) {
+            System.out.println("Choose how many enemies you want to combat: ");
+
+            choice = Integer.parseInt(myObj.nextLine());
+            if (choice < 64) {
+                return choice;
+            } else {
+                System.out.println("Please give a valid choice\n");
+            }
+        }
+        return choice;
+    }
 
 
     public Menu(Game game) {

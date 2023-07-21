@@ -1,8 +1,15 @@
 package fr.campus.dungeonsndragons.logic;
 
+import fr.campus.dungeonsndragons.attributes.Chest;
+import fr.campus.dungeonsndragons.attributes.HealingPotion;
+import fr.campus.dungeonsndragons.attributes.Spell;
+import fr.campus.dungeonsndragons.attributes.Weapon;
+import fr.campus.dungeonsndragons.board.GameBoard;
+import fr.campus.dungeonsndragons.board.Square;
 import fr.campus.dungeonsndragons.players.Hero;
 import fr.campus.dungeonsndragons.players.Warrior;
 import fr.campus.dungeonsndragons.players.Wizard;
+
 import java.util.ArrayList;
 
 public class Game {
@@ -11,9 +18,14 @@ public class Game {
     private int position = 1;
     private Menu mainMenu;
     private Artwork artwork;
+    private Chest chest = new Chest();
+
+
+    //    private HealingPotion healingPotion = new HealingPotion(this);
+    private HealingPotion healingPotion;
     Object[] array;
 
-    ArrayList<Square> gameboard = new ArrayList<Square>();
+//    private ArrayList<Square> gameboard = new ArrayList<>();
 
     private Hero newhero;
 
@@ -37,6 +49,10 @@ public class Game {
 
     public Game() {
 
+    }
+
+    public void runGame() {
+
         boolean endOfGame = false;
         this.mainMenu = new Menu(this);
         this.artwork = new Artwork();
@@ -53,32 +69,36 @@ public class Game {
             } else if (heroType.equals("wizard")) {
                 newhero = new Wizard(heroName);
             }
-
-            //add a roll for an optional chest somewhere here
+            mainMenu.hero = newhero;
 
             newhero.setType(heroType);
             this.artwork.showType(heroType, heroName);
+            System.out.println(newhero);
 
+            //add menu continue or quit or restart game
+
+            boolean doChest = mainMenu.randomChestChoice();
+            if (doChest) {
+                chest.randomChestCreation(newhero, this);
+            }
             System.out.println(newhero.toString());
-
         }
+
         boolean doStart = mainMenu.startGame();
 
         if (doStart) {
             initBoard();
+            //choice of enemies
+            int numberOfEnemies = mainMenu.enemyCountChoice();
+            //new gameboard with choice of enemies:
+            GameBoard gameBoard = new GameBoard(numberOfEnemies);
+
         }
         artwork.diceArt();
 
         while (!endOfGame) {
             if (mainMenu.movePlayer() && position < array.length) {
                 this.position += throwDice();
-
-//                //Insert player into array
-//                try {
-//                    array[this.position] = this.newhero;
-//                } catch (ArrayIndexOutOfBoundsException e){
-//                    System.out.println("You fell off the board!! " + e.getMessage());
-//                }
 
                 if (position < array.length) {
                     this.mainMenu.givePosition();
@@ -91,14 +111,13 @@ public class Game {
                     mainMenu.continueGame();
 
                     //ask to restart game
-                    boolean doRestart = mainMenu.restartGame();
-
-                    if (doRestart) {
-                        new Game();
+                    if (mainMenu.restartGame()) {
+                        runGame();
                     }
                 }
             }
         }
+
     }
 
     public void initBoard() {
@@ -111,5 +130,41 @@ public class Game {
         return rolledDice;
     }
 
+    public int randomOneOrTwo() {
+        int rolledDice = (int) (Math.random() * 2 + 1);
+        return rolledDice;
+    }
+
+    public void randomAttackEquipment() {
+        int oneOrTwo = randomOneOrTwo();
+        switch (randomOneOrTwo()) {
+            case 1:
+                if (oneOrTwo == 1) {
+                    newhero.setAttackEquipment(new Spell(2, "lightning bolt"));
+                } else {
+                    newhero.setAttackEquipment(new Spell(5, "fireball"));
+                }
+                break;
+
+            case 2:
+                if (oneOrTwo == 1) {
+                    newhero.setAttackEquipment(new Weapon(2, "morning star"));
+                } else {
+                    newhero.setAttackEquipment(new Weapon(4, "lightbringer"));
+                }
+
+                break;
+        }
+    }
+
+    public HealingPotion randomHealingPotion() {
+        switch (randomOneOrTwo()) {
+            case 1:
+                return new HealingPotion("small");
+            case 2:
+                return new HealingPotion("large");
+        }
+        return null;
+    }
 
 }

@@ -1,6 +1,6 @@
 package fr.campus.dungeonsndragons.players;
 
-public class Wizard extends Hero{
+public class Wizard extends Hero {
 
     public Wizard(String heroName) {
         super(heroName);
@@ -12,6 +12,7 @@ public class Wizard extends Hero{
         int rolledDice = (int) (Math.random() * (16 - 8)) + 8;
         setAttackPower(rolledDice);
     }
+
     public void randLife() {
         int rolledDice = (int) (Math.random() * (7 - 3)) + 3;
         setLifePoints(rolledDice);
