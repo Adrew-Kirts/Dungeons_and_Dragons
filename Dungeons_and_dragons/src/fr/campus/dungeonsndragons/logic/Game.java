@@ -69,33 +69,34 @@ public class Game {
             }
             mainMenu.hero = newhero;
 
-            //insert new hero into db
-            this.dbconnect.insertHero(newhero);
-
-            //TODELETE after verifying:
-
-            dbconnect.getHeroes();
-
             newhero.setType(heroType);
             this.artwork.showType(heroType, heroName);
             System.out.println(newhero);
 
+            //insert new hero into db
+            this.dbconnect.insertHero(newhero);
+
+            //TODO:
+            //TODELETE after verifying:
+            dbconnect.getLastHero();
+
+            //TODO
             //add menu continue or quit or restart game
 
             boolean doChest = mainMenu.randomChestChoice();
             if (doChest) {
                 chest.randomChestCreation(newhero, this);
             }
-            System.out.println(newhero.toString());
+            System.out.println(newhero);
         }
 
         boolean doStart = mainMenu.startGame();
 
         if (doStart) {
             initBoard();
-            //choice of enemies
+            //choice of number of enemies
             int numberOfEnemies = mainMenu.enemyCountChoice();
-            //new gameboard with choice of enemies:
+            //new gameboard with choice
             gameBoard = new GameBoard(numberOfEnemies);
 
         }

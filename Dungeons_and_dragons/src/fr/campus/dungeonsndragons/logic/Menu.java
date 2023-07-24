@@ -3,11 +3,14 @@ package fr.campus.dungeonsndragons.logic;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import fr.campus.dungeonsndragons.attributes.AttackEquipment;
 import fr.campus.dungeonsndragons.board.EnemySquare;
 import fr.campus.dungeonsndragons.board.GameBoard;
 import fr.campus.dungeonsndragons.board.Square;
+import fr.campus.dungeonsndragons.db.DatabaseConnection;
 import fr.campus.dungeonsndragons.npc.Enemy;
 import fr.campus.dungeonsndragons.players.Hero;
+
 
 public class Menu {
 
@@ -15,6 +18,9 @@ public class Menu {
     GameBoard gameBoard;
     Hero hero;
     Artwork artwork = new Artwork();
+    private DatabaseConnection dbconnect = new DatabaseConnection();
+
+    private AttackEquipment attackEquipment;
 
     public boolean startGame() {
         boolean choiceMade = false;
@@ -134,7 +140,6 @@ public class Menu {
         Scanner myObj = new Scanner(System.in);
         String choice;
         String coward;
-        boolean stop = false;
 
         System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxx");
         System.out.println("x     Throw dice [d]     x");
@@ -145,8 +150,8 @@ public class Menu {
         if (choice.equals("d")) {
             return true;
         } else if (choice.equals("s")) {
-//            System.out.println(mainGame.newhero);
             System.out.println(hero);
+            dbconnect.getLastHero();
             return false;
         } else if (choice.equals("q")) {
             System.out.println("Frightened little one...");
@@ -166,20 +171,6 @@ public class Menu {
         return false;
     }
 
-    public void givePositionOLD() {
-        int playerPosition = this.mainGame.getPosition();
-        Square square = this.mainGame.getGameBoard().getGameboard().get(playerPosition);
-        System.out.println("|   Player is on square " + playerPosition + " out of " + this.mainGame.array.length + "   |");
-        System.out.println(" --------------------");
-        if (square instanceof EnemySquare) {
-            String boardPosition = this.mainGame.getGameBoard().getGameboard().get(playerPosition).toString();
-            System.out.println(boardPosition);
-        }
-        else {
-            System.out.println("No enemy here");
-        }
-    }
-
     public void givePosition() {
         int playerPosition = this.mainGame.getPosition();
 
@@ -193,17 +184,74 @@ public class Menu {
                 int enemyLifePoints = enemy.getLifePoints();
                 int enemyAttackPower = enemy.getAttackPower();
 
-                System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
-                System.out.println("-------------------------------");
-                System.out.println("\nA " + enemyType +" appeared!");
-                System.out.println("HP: " + enemyLifePoints);
-                System.out.println("ATK: " + enemyAttackPower);
+                if (enemyLifePoints <= 0){
+                    System.out.println("\nYou killed the " + enemyType + " !");
+                }
+                else {
+                    System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
+                    System.out.println("-------------------------------");
+                    System.out.println("\nA " + enemyType + " appeared!");
+                    System.out.println("HP: " + enemyLifePoints);
+                    System.out.println("ATK: " + enemyAttackPower);
+                }
+
+                if (enemy.getLifePoints() > 0 && fightOrFlight()){
+                    System.out.println("You attack the "+enemyType+" with a total ATK of "+hero.getTotalAttackLevel()+ "...");
+
+                    enemy.setLifePoints((enemy.getLifePoints()-hero.getTotalAttackLevel()));
+
+                    //for testing purposes:
+                    givePosition();
+                    //change this to not show "an enemy appeared" again
+                }
+
             } else {
                 System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
                 System.out.println("-------------------------------");
                 System.out.println("No enemies here...");
             }
         }
+    }
+
+    public boolean fightOrFlight() {
+        Scanner myObj = new Scanner(System.in);
+        String choice;
+        String coward;
+
+        System.out.println("\nxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        System.out.println("x        Fight [f]        x");
+        System.out.println("x         Run [r]         x");
+        System.out.println("x Show player status [s]  x");
+        System.out.println("x      Quit game [q]      x");
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        choice = myObj.nextLine().toLowerCase();
+        if (choice.equals("f")) {
+            return true;
+        } else if (choice.equals("r")) {
+            System.out.println("You ran away! Let's roll how much you moved back");
+            int run = mainGame.throwDice();
+            mainGame.setPosition(mainGame.getPosition()-run);
+            givePosition();
+        } else if (choice.equals("s")) {
+            System.out.println(hero);
+            dbconnect.getLastHero();
+            fightOrFlight();
+        } else if (choice.equals("q")) {
+            System.out.println("Frightened little one...");
+            System.out.println("Do you want to quit the dungeon");
+            System.out.println("[y or n]");
+            coward = myObj.nextLine().toLowerCase();
+            if (coward.equals("y")) {
+                System.out.println("You get killed while leaving the dungeon");
+                System.exit(0);
+            } else if (coward.equals("n")) {
+                fightOrFlight();
+            }
+        } else {
+            System.out.println("Please type in \"f\", \"r\", \"s\", or \"q\"\n");
+            fightOrFlight();
+        }
+        return false;
     }
 
 

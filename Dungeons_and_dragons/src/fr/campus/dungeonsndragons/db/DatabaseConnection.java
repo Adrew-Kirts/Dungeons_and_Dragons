@@ -15,37 +15,7 @@ public class DatabaseConnection {
     }
 
     public void main(String[] args) {
-//        try {
-//            Connection connection = getConnection();
-//
-//            Statement statement = connection.createStatement();
-//
-//            //SAMPLE QUERY
-//            String query = "SELECT * FROM Hero";
-//            ResultSet resultSet = statement.executeQuery(query);
-//
-//            while (resultSet.next()) {
-//                int id = resultSet.getInt("id");
-//                String name = resultSet.getString("name");
-//                String type = resultSet.getString("type");
-//                int lifepoints = resultSet.getInt("lifepoints");
-//                int attackpower = resultSet.getInt("attackpower");
-//
-//                System.out.println("ID: " + id);
-//                System.out.println("Name: " + name);
-//                System.out.println("Type: " + type);
-//                System.out.println("Lifepoints: " + lifepoints);
-//                System.out.println("Attack Power: " + attackpower);
-//                System.out.println("------------------------");
-//            }
-//
-//            //Close resources
-//            resultSet.close();
-//            statement.close();
-//            connection.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+
     }
 
     public void getHeroes() {
@@ -67,8 +37,8 @@ public class DatabaseConnection {
                 System.out.println("ID: " + id);
                 System.out.println("Name: " + name);
                 System.out.println("Type: " + type);
-                System.out.println("Lifepoints: " + lifepoints);
-                System.out.println("Attack Power: " + attackpower);
+                System.out.println("HP: " + lifepoints);
+                System.out.println("ATK: " + attackpower);
                 System.out.println("------------------------");
             }
 
@@ -80,6 +50,42 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
+
+    public void getLastHero() {
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            String query = "SELECT * FROM Hero ORDER BY id DESC LIMIT 1";
+            ResultSet resultSet = statement.executeQuery(query);
+
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String type = resultSet.getString("type");
+                int lifepoints = resultSet.getInt("lifepoints");
+                int attackpower = resultSet.getInt("attackpower");
+
+//                System.out.println("ID: " + id);
+                System.out.println("---------------------");
+                System.out.println("Name: " + name);
+                System.out.println("Type: " + type);
+                System.out.println("HP: " + lifepoints);
+                System.out.println("ATK: " + attackpower);
+                System.out.println("---------------------");
+            } else {
+                System.out.println("No heroes found in the database.");
+            }
+
+            //Close resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public void insertHero(Hero newhero) {
@@ -93,10 +99,6 @@ public class DatabaseConnection {
             preparedStatement.setString(2, newhero.getType());
             preparedStatement.setInt(3, newhero.getLifePoints());
             preparedStatement.setInt(4, newhero.getAttackPower());
-
-            //TODO:
-            //this en parametre
-            //mettre les get
 
             int rowsAffected = preparedStatement.executeUpdate();
 
@@ -117,32 +119,46 @@ public class DatabaseConnection {
     }
 
 
-    public void changeLifePoints(String name, int newLifePoints) {
+    public void setCurrentHeroHP(Hero newhero) {
         try {
             Connection connection = getConnection();
+            Statement statement = connection.createStatement();
 
-            String updateQuery = "UPDATE Hero SET lifepoints = ? WHERE name = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+            //Find the ID of the last/current hero created
+            String getLastHeroIdQuery = "SELECT id FROM Hero ORDER BY id DESC LIMIT 1";
+            ResultSet lastHeroIdResult = statement.executeQuery(getLastHeroIdQuery);
 
-            preparedStatement.setInt(1, newLifePoints);
-            preparedStatement.setString(2, name);
+            if (lastHeroIdResult.next()) {
+                int lastHeroId = lastHeroIdResult.getInt("id");
 
-            int rowsAffected = preparedStatement.executeUpdate();
+                //Set HP for current hero
+                String updateQuery = "UPDATE Hero SET lifepoints = ? WHERE id = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
 
-            // to delete if no errors:
-            if (rowsAffected > 0) {
-                System.out.println("Life points updated successfully for Hero: " + name);
+                preparedStatement.setInt(1, newhero.getLifePoints());
+                preparedStatement.setInt(2, lastHeroId);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    System.out.println("Life points updated successfully for the last created Hero with ID: " + lastHeroId);
+                } else {
+                    System.out.println("No Hero found with the ID: " + lastHeroId);
+                }
+
+                preparedStatement.close();
             } else {
-                System.out.println("No Hero found with the name: " + name);
+                System.out.println("No heroes found in the database.");
             }
 
-            //Close resources
-            preparedStatement.close();
+            lastHeroIdResult.close();
+            statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
 
 }

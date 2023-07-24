@@ -15,10 +15,12 @@ public abstract class Hero {
     private int attackPower;
 
 
+
     //Equipment:
     private AttackEquipment attackEquipment;
     private DefenseEquipment defenseEquipment;
     private HealingPotion healingPotions;
+
 
 
     //GETTERS and SETTERS
@@ -70,6 +72,11 @@ public abstract class Hero {
         this.attackEquipment = attackEquipment;
     }
 
+    public int getTotalAttackLevel(){
+        int total = attackEquipment.getLevel()+this.attackPower;
+        return total;
+    }
+
     public DefenseEquipment getDefenseEquipment() {
         return defenseEquipment;
     }
@@ -100,8 +107,8 @@ public abstract class Hero {
             return "\nYour hero " + name + " has " + lifePoints + " HP and " +
                     attackPower + " ATK, " + attackEquipment;
         } else if (attackEquipment == null) {
-            return "\nYour hero " + name + " has " + lifePoints + " HP and " +
-                    attackPower + " ATK, " + healingPotions;
+            return "\nYour hero " + name + " has " + lifePoints + " HP, " +
+                    attackPower + " ATK and , " + healingPotions;
         } else {
             return "\nYour hero " + name + " has " + lifePoints + " HP and " +
                     attackPower + " ATK, " + attackEquipment + " and " + healingPotions;

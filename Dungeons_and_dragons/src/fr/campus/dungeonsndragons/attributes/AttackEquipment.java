@@ -8,6 +8,10 @@ public abstract class AttackEquipment {
     private String name;
 
 
+    public int getLevel() {
+        return level;
+    }
+
     public AttackEquipment(String attackType, int attackLevel, String attackName){
         this.type = attackType;
         this.level = attackLevel;

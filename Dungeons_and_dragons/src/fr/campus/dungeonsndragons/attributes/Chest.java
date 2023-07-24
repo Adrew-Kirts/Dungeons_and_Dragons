@@ -35,6 +35,7 @@ public class Chest {
             hero.setHealingPotions(game.randomHealingPotion());
         }
         else {
+            hero.setAttackEquipment(new Weapon(0, "Wooden stick"));
             System.out.println("Sorry, no luck!");
         }
     }
