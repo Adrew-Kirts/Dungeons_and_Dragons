@@ -6,6 +6,7 @@ import fr.campus.dungeonsndragons.attributes.Spell;
 import fr.campus.dungeonsndragons.attributes.Weapon;
 import fr.campus.dungeonsndragons.board.GameBoard;
 import fr.campus.dungeonsndragons.board.Square;
+import fr.campus.dungeonsndragons.db.DatabaseConnection;
 import fr.campus.dungeonsndragons.players.Hero;
 import fr.campus.dungeonsndragons.players.Warrior;
 import fr.campus.dungeonsndragons.players.Wizard;
@@ -20,14 +21,9 @@ public class Game {
     private Artwork artwork;
     private Chest chest = new Chest();
     private GameBoard gameBoard;
-
-
-    //    private HealingPotion healingPotion = new HealingPotion(this);
     private HealingPotion healingPotion;
+    private DatabaseConnection dbconnect = new DatabaseConnection();
     Object[] array;
-
-//    private ArrayList<Square> gameboard = new ArrayList<>();
-
     private Hero newhero;
 
     //GETTERS
@@ -72,6 +68,13 @@ public class Game {
                 newhero = new Wizard(heroName);
             }
             mainMenu.hero = newhero;
+
+            //insert new hero into db
+            this.dbconnect.insertHero(newhero);
+
+            //TODELETE after verifying:
+
+            dbconnect.getHeroes();
 
             newhero.setType(heroType);
             this.artwork.showType(heroType, heroName);

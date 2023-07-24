@@ -98,13 +98,13 @@ public abstract class Hero {
                     attackPower + " ATK";
         } else if (healingPotions == null) {
             return "\nYour hero " + name + " has " + lifePoints + " HP and " +
-                    attackPower + " ATK" + attackEquipment;
+                    attackPower + " ATK, " + attackEquipment;
         } else if (attackEquipment == null) {
             return "\nYour hero " + name + " has " + lifePoints + " HP and " +
-                    attackPower + " ATK" + healingPotions;
+                    attackPower + " ATK, " + healingPotions;
         } else {
             return "\nYour hero " + name + " has " + lifePoints + " HP and " +
-                    attackPower + " ATK" + attackEquipment + " and " + healingPotions;
+                    attackPower + " ATK, " + attackEquipment + " and " + healingPotions;
         }
 
     }

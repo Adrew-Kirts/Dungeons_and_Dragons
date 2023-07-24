@@ -18,8 +18,4 @@ public class Warrior extends Hero {
         setLifePoints(rolledDice);
     }
 
-    public void insertIntoDB(){
-        DatabaseConnection.insertHero("Hero1", "Wizard", 15, 10);
-    }
-
 }

@@ -1,23 +1,59 @@
 package fr.campus.dungeonsndragons.db;
+import fr.campus.dungeonsndragons.players.Hero;
+
 import java.sql.*;
 
 public class DatabaseConnection {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/D_and_D";
-    private static final String USER = "ezra";
-    private static final String PASS = "password";
+    private final String DB_URL = "jdbc:mysql://localhost:3306/D_and_D";
+    private final String USER = "ezra";
+    private final String PASS = "password";
+    private Hero hero;
 
-    public static Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
+//        try {
+//            Connection connection = getConnection();
+//
+//            Statement statement = connection.createStatement();
+//
+//            //SAMPLE QUERY
+//            String query = "SELECT * FROM Hero";
+//            ResultSet resultSet = statement.executeQuery(query);
+//
+//            while (resultSet.next()) {
+//                int id = resultSet.getInt("id");
+//                String name = resultSet.getString("name");
+//                String type = resultSet.getString("type");
+//                int lifepoints = resultSet.getInt("lifepoints");
+//                int attackpower = resultSet.getInt("attackpower");
+//
+//                System.out.println("ID: " + id);
+//                System.out.println("Name: " + name);
+//                System.out.println("Type: " + type);
+//                System.out.println("Lifepoints: " + lifepoints);
+//                System.out.println("Attack Power: " + attackpower);
+//                System.out.println("------------------------");
+//            }
+//
+//            //Close resources
+//            resultSet.close();
+//            statement.close();
+//            connection.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    public void getHeroes() {
         try {
             Connection connection = getConnection();
 
             Statement statement = connection.createStatement();
 
-            //SAMPLE QUERY
             String query = "SELECT * FROM Hero";
             ResultSet resultSet = statement.executeQuery(query);
 
@@ -46,17 +82,17 @@ public class DatabaseConnection {
     }
 
 
-    public static void insertHero(String name, String type, int lifepoints, int attackpower) {
+    public void insertHero(Hero newhero) {
         try {
             Connection connection = getConnection();
 
             String insertQuery = "INSERT INTO Hero (name, type, lifepoints, attackpower) VALUES (?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
 
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2, type);
-            preparedStatement.setInt(3, lifepoints);
-            preparedStatement.setInt(4, attackpower);
+            preparedStatement.setString(1, newhero.getName());
+            preparedStatement.setString(2, newhero.getType());
+            preparedStatement.setInt(3, newhero.getLifePoints());
+            preparedStatement.setInt(4, newhero.getAttackPower());
 
             //TODO:
             //this en parametre
@@ -64,7 +100,7 @@ public class DatabaseConnection {
 
             int rowsAffected = preparedStatement.executeUpdate();
 
-            //To delete when it works:
+            //To delete after verifying it works:
             if (rowsAffected > 0) {
                 System.out.println("New Hero added successfully to the database!");
             } else {
@@ -81,7 +117,7 @@ public class DatabaseConnection {
     }
 
 
-    public static void changeLifePoints(String name, int newLifePoints) {
+    public void changeLifePoints(String name, int newLifePoints) {
         try {
             Connection connection = getConnection();
 

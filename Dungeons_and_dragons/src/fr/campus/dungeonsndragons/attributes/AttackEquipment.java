@@ -16,7 +16,7 @@ public abstract class AttackEquipment {
 
     public String toString() {
 
-        return "a " + type + " of attack power " + level + " named " + name;
+    return "a " + type + " of " + level + " ATK named " + name;
     }
 
 }
