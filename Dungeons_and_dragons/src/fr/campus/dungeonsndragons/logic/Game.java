@@ -69,6 +69,8 @@ public class Game {
             }
             mainMenu.hero = newhero;
 
+            newhero.setAttackEquipment(new Weapon(0, "Wooden stick"));
+
             newhero.setType(heroType);
             this.artwork.showType(heroType, heroName);
             System.out.println(newhero);
@@ -172,5 +174,6 @@ public class Game {
         }
         return null;
     }
+
 
 }

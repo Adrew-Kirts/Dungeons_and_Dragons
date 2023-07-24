@@ -3,25 +3,29 @@ package fr.campus.dungeonsndragons.logic;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import fr.campus.dungeonsndragons.attributes.AttackEquipment;
 import fr.campus.dungeonsndragons.board.EnemySquare;
-import fr.campus.dungeonsndragons.board.GameBoard;
 import fr.campus.dungeonsndragons.board.Square;
 import fr.campus.dungeonsndragons.db.DatabaseConnection;
 import fr.campus.dungeonsndragons.npc.Enemy;
 import fr.campus.dungeonsndragons.players.Hero;
 
-
+/**
+ * The Menu class handles various interactions with the user during the Dungeons and Dragons game.
+ * It includes methods for starting the game, continuing, restarting, and handling hero creation.
+ */
 public class Menu {
 
     Game mainGame;
-    GameBoard gameBoard;
     Hero hero;
     Artwork artwork = new Artwork();
     private DatabaseConnection dbconnect = new DatabaseConnection();
 
-    private AttackEquipment attackEquipment;
 
+    /**
+     * Prompts the user to start the game or quit.
+     *
+     * @return true if the user chooses to start the game, false if they choose to quit.
+     */
     public boolean startGame() {
         boolean choiceMade = false;
         Scanner myObj = new Scanner(System.in);
@@ -44,6 +48,11 @@ public class Menu {
         return false;
     }
 
+    /**
+     * Prompts the user to continue the game by pressing enter.
+     *
+     * @return true if the user presses enter to continue, false otherwise.
+     */
     public boolean continueGame() {
         System.out.println("\nPress enter to continue...");
         Scanner myObj = new Scanner(System.in);
@@ -200,9 +209,18 @@ public class Menu {
 
                     enemy.setLifePoints((enemy.getLifePoints()-hero.getTotalAttackLevel()));
 
+                    if (enemy.getLifePoints() > 0){
+                        //attack hero function
+                        int enemyATK = enemy.getAttackPower();
+                        System.out.println("The " + enemyType + " attacks you with " + enemyATK + "ATK");
+                        hero.setLifePoints((hero.getLifePoints()-enemyATK));
+                        dbconnect.setCurrentHeroHP(hero);
+//                        TODO: delete this:
+                        System.out.println("Hero HP: " + hero.getLifePoints());
+                    }
+
                     //for testing purposes:
                     givePosition();
-                    //change this to not show "an enemy appeared" again
                 }
 
             } else {
