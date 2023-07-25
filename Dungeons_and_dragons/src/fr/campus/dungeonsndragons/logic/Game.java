@@ -5,14 +5,15 @@ import fr.campus.dungeonsndragons.attributes.HealingPotion;
 import fr.campus.dungeonsndragons.attributes.Spell;
 import fr.campus.dungeonsndragons.attributes.Weapon;
 import fr.campus.dungeonsndragons.board.GameBoard;
-import fr.campus.dungeonsndragons.board.Square;
 import fr.campus.dungeonsndragons.db.DatabaseConnection;
 import fr.campus.dungeonsndragons.players.Hero;
 import fr.campus.dungeonsndragons.players.Warrior;
 import fr.campus.dungeonsndragons.players.Wizard;
 
-import java.util.ArrayList;
-
+/**
+ * The Game class represents the Dungeons and Dragons game logic. It manages player creation,
+ * game board initialization, player movement, battles, and other game-related actions.
+ */
 public class Game {
 
     //VARIABLES
@@ -34,7 +35,10 @@ public class Game {
     public Menu getMainMenu() {
         return mainMenu;
     }
-    public GameBoard getGameBoard() {return gameBoard;}
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
 
     //SETTERS
     public void setPosition(int position) {
@@ -45,15 +49,22 @@ public class Game {
         this.mainMenu = mainMenu;
     }
 
+    /**
+     * Creates a new Game instance.
+     */
     public Game() {
 
     }
 
+    /**
+     * Runs the Dungeons and Dragons game.
+     */
     public void runGame() {
 
         boolean endOfGame = false;
         this.mainMenu = new Menu(this);
         this.artwork = new Artwork();
+
 
         boolean doCreateHero = mainMenu.heroCreation();
 
@@ -85,12 +96,22 @@ public class Game {
             //TODO
             //add menu continue or quit or restart game
 
-            boolean doChest = mainMenu.randomChestChoice();
-            if (doChest) {
-                chest.randomChestCreation(newhero, this);
-            }
-            System.out.println(newhero);
+
+        } else {
+            //Make a new instance of a Hero
+            newhero = new Wizard("placeholder");
+            mainMenu.hero = newhero;
+            newhero.setAttackEquipment(new Weapon(0, "Wooden stick"));
+            newhero.setType("wizard");
+            //And update it with the characteristics of a saved hero
+            mainMenu.selectHero();
         }
+
+        boolean doChest = mainMenu.randomChestChoice();
+        if (doChest) {
+            chest.randomChestCreation(newhero, this);
+        }
+        System.out.println(newhero);
 
         boolean doStart = mainMenu.startGame();
 
@@ -128,21 +149,37 @@ public class Game {
 
     }
 
+    /**
+     * Initializes the game board with an array of objects.
+     */
     public void initBoard() {
         this.array = new Object[64];
     }
 
+    /**
+     * Simulates rolling a dice and returns the rolled value.
+     *
+     * @return The value rolled on the dice (1 to 6).
+     */
     public int throwDice() {
         int rolledDice = (int) (Math.random() * 6 + 1);
         mainMenu.showDice(rolledDice);
         return rolledDice;
     }
 
+    /**
+     * Simulates rolling of a two-sided dice and returns the rolled value.
+     *
+     * @return The value rolled on the dice (1 to 2).
+     */
     public int randomOneOrTwo() {
         int rolledDice = (int) (Math.random() * 2 + 1);
         return rolledDice;
     }
 
+    /**
+     * Generates random attack equipment for the hero (either a spell or a weapon).
+     */
     public void randomAttackEquipment() {
         int oneOrTwo = randomOneOrTwo();
         switch (randomOneOrTwo()) {
@@ -156,15 +193,20 @@ public class Game {
 
             case 2:
                 if (oneOrTwo == 1) {
-                    newhero.setAttackEquipment(new Weapon(2, "morning star"));
+                    newhero.setAttackEquipment(new Weapon(2, "Morning Star"));
                 } else {
-                    newhero.setAttackEquipment(new Weapon(4, "lightbringer"));
+                    newhero.setAttackEquipment(new Weapon(4, "Lightbringer"));
                 }
 
                 break;
         }
     }
 
+    /**
+     * Generates a random healing potion.
+     *
+     * @return A randomly generated healing potion (either "small" or "large")..
+     */
     public HealingPotion randomHealingPotion() {
         switch (randomOneOrTwo()) {
             case 1:
@@ -173,6 +215,21 @@ public class Game {
                 return new HealingPotion("large");
         }
         return null;
+    }
+
+    /**
+     * Uses a healing potion to restore the hero's life points.
+     *
+     * @param size The size of the healing potion (either "small" or "large").
+     */
+    public void useHealingPotion(String size) {
+        if (size.equals("large")) {
+            //Uses a large potion that restores 5 life points
+            newhero.setLifePoints(5);
+        } else {
+            //Uses a small potion that restores 3 life points
+            newhero.setLifePoints(3);
+        }
     }
 
 

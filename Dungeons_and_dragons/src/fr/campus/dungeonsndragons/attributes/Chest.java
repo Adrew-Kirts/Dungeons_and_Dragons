@@ -3,9 +3,20 @@ package fr.campus.dungeonsndragons.attributes;
 import fr.campus.dungeonsndragons.players.Hero;
 import fr.campus.dungeonsndragons.logic.Game;
 
+
+/**
+ * The Chest class represents a chest in the Dungeons and Dragons game, which may contain various rewards.
+ * It provides a method to generate random rewards based on the type of hero and the result of dice rolling.
+ */
 public class Chest {
 
 
+    /**
+     * Generates random rewards for the hero based on the dice rolling result and the type of hero.
+     *
+     * @param hero The hero to receive the rewards.
+     * @param game The Game instance to access dice rolling and other game-related actions.
+     */
     public void randomChestCreation(Hero hero, Game game) {
 
         int rolledDice = game.throwDice();

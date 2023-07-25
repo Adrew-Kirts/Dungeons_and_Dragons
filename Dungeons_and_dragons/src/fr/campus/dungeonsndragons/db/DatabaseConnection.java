@@ -119,6 +119,45 @@ public class DatabaseConnection {
     }
 
 
+    public void setSelectedHero(int id) {
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+
+            // Find the hero with the specified ID
+            String getHeroByIdQuery = "SELECT * FROM Hero WHERE id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(getHeroByIdQuery);
+            //Set the ID
+            preparedStatement.setInt(1, Integer.parseInt(String.valueOf(id)));
+            ResultSet heroResult = preparedStatement.executeQuery();
+
+            if (heroResult.next()) {
+                // Get the hero details from the result set
+                int lifePoints = heroResult.getInt("lifepoints");
+                int attackPower = heroResult.getInt("attackpower");
+                String type = heroResult.getString("type");
+                String name = heroResult.getString("name");
+
+                // Set the values to the hero object
+                hero.setLifePoints(lifePoints);
+                hero.setAttackPower(attackPower);
+                hero.setType(type);
+                hero.setName(name);
+
+                System.out.println("Hero with ID " + id + " selected and properties set successfully.");
+            } else {
+                System.out.println("No hero found with the ID: " + id);
+            }
+
+            heroResult.close();
+            preparedStatement.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setCurrentHeroHP(Hero newhero) {
         try {
             Connection connection = getConnection();
