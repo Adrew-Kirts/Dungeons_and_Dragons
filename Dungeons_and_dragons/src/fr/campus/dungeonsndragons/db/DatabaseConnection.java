@@ -177,13 +177,13 @@ public class DatabaseConnection {
                 preparedStatement.setInt(1, newhero.getLifePoints());
                 preparedStatement.setInt(2, lastHeroId);
 
-                int rowsAffected = preparedStatement.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    System.out.println("Life points updated successfully for the last created Hero with ID: " + lastHeroId);
-                } else {
-                    System.out.println("No Hero found with the ID: " + lastHeroId);
-                }
+//                int rowsAffected = preparedStatement.executeUpdate();
+//
+//                if (rowsAffected > 0) {
+//                    System.out.println("Life points updated successfully for the last created Hero with ID: " + lastHeroId);
+//                } else {
+//                    System.out.println("No Hero found with the ID: " + lastHeroId);
+//                }
 
                 preparedStatement.close();
             } else {

@@ -28,7 +28,7 @@ public class Dragon extends Enemy {
      * Sets the Dragon's life points to a random value between 13 and 18 (inclusive).
      */
     public void randLife() {
-        int rolledDice = (int) (Math.random() * (18 - 14)) + 13;
+        int rolledDice = (int) (Math.random() * (31 - 25)) + 25;
         setLifePoints(rolledDice);
     }
 }

@@ -260,6 +260,8 @@ public class Menu {
 
     public void givePosition() {
         int playerPosition = this.mainGame.getPosition();
+        boolean alreadyExecuted = false;
+
 
         if (playerPosition >= 0 && playerPosition < this.mainGame.getGameBoard().getGameboard().size()) {
             Square square = this.mainGame.getGameBoard().getGameboard().get(playerPosition);
@@ -274,11 +276,21 @@ public class Menu {
                 if (enemyLifePoints <= 0) {
                     System.out.println("\nYou killed the " + enemyType + "!");
                 } else {
-                    System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
-                    System.out.println("-------------------------------");
-                    System.out.println("\nA " + enemyType + " appeared!");
-                    System.out.println("HP: " + enemyLifePoints);
-                    System.out.println("ATK: " + enemyAttackPower);
+                    if(!alreadyExecuted){
+                        System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
+                        System.out.println("-------------------------------");
+                        System.out.println("\nA " + enemyType + " appeared!");
+                        System.out.println("HP: " + enemyLifePoints);
+                        System.out.println("ATK: " + enemyAttackPower);
+                        alreadyExecuted = true;
+                        //TODO: fix to only run this once
+                    }
+                    else {
+                        System.out.println("\nThe " + enemyType + " is preparing to attack again!");
+                        System.out.println("HP: " + enemyLifePoints);
+                        System.out.println("ATK: " + enemyAttackPower);
+                    }
+
                 }
 
                 if (enemy.getLifePoints() > 0 && fightOrFlight()) {
@@ -289,11 +301,10 @@ public class Menu {
                     if (enemy.getLifePoints() > 0) {
                         //attack hero function
                         int enemyATK = enemy.getAttackPower();
-                        System.out.println("The " + enemyType + " attacks you with " + enemyATK + "ATK");
+                        System.out.println("\nThe " + enemyType + " attacks you with " + enemyATK + "ATK");
                         hero.setLifePoints((hero.getLifePoints() - enemyATK));
                         dbconnect.setCurrentHeroHP(hero);
-//                        TODO: delete this:
-                        System.out.println("Hero HP: " + hero.getLifePoints());
+                        System.out.println("Hero HP is now: " + hero.getLifePoints());
                     }
 
                     //for testing purposes:

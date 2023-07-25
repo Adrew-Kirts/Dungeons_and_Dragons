@@ -28,7 +28,7 @@ public class Goblin extends Enemy {
      * Sets the Goblin's life points to a random value between 6 and 12 (inclusive).
      */
     public void randLife() {
-        int rolledDice = (int) (Math.random() * (12 - 8)) + 6;
+        int rolledDice = (int) (Math.random() * (15 - 10)) + 10;
         setLifePoints(rolledDice);
     }
 }

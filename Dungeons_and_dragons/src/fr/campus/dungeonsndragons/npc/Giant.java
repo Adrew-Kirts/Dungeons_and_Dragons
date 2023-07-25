@@ -28,7 +28,7 @@ public class Giant extends Enemy {
      * Sets the Giant's life points to a random value between 7 and 13 (inclusive).
      */
     public void randLife() {
-        int rolledDice = (int) (Math.random() * (13 - 9)) + 7;
+        int rolledDice = (int) (Math.random() * (21 - 14)) + 14;
         setLifePoints(rolledDice);
     }
 }
