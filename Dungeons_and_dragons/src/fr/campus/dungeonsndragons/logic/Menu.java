@@ -277,12 +277,13 @@ public class Menu {
                     System.out.println("\nYou killed the " + enemyType + "!");
                 } else {
                     if(!alreadyExecuted){
+                        alreadyExecuted = true;
                         System.out.println("Player is on square " + playerPosition + " out of " + this.mainGame.array.length);
                         System.out.println("-------------------------------");
                         System.out.println("\nA " + enemyType + " appeared!");
                         System.out.println("HP: " + enemyLifePoints);
                         System.out.println("ATK: " + enemyAttackPower);
-                        alreadyExecuted = true;
+
                         //TODO: fix to only run this once
                     }
                     else {
